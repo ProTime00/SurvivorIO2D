@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
@@ -8,18 +9,24 @@ public class Shooting : MonoBehaviour
     public GameObject bulletPrefab;
     public float bulletForce;
 
-    private float shootTimer = 0.5f;
+    private const float DefaultShootTimer = 1.5f;
+    private float _shootTimer;
 
-    // Update is called once per frame
+    private void Awake()
+    {
+        _shootTimer = DefaultShootTimer;
+    }
+
+    
     void Update()
     {
-        if (shootTimer <= 0)
+        if (_shootTimer <= 0)
         {
-            shootTimer = 0.5f;
+            _shootTimer = DefaultShootTimer;
             Shoot();
         }
 
-        shootTimer -= Time.deltaTime;
+        _shootTimer -= Time.deltaTime;
         
     }
 

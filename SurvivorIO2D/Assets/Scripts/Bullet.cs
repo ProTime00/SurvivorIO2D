@@ -14,6 +14,14 @@ public class Bullet : MonoBehaviour
         {
             return;
         }
+
+        if (other.CompareTag("Enemy"))
+        {
+            if (other.GetComponent<BaseEnemy>().TakeDamage(50))
+            {
+                Destroy(other.gameObject);
+            }
+        }
         var transform1 = transform;
         var temp = Instantiate(hitEffect, transform1.position, transform1.rotation);
         Destroy(temp, 0.5f);

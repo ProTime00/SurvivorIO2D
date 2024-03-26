@@ -14,6 +14,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D _rb;
     private Vector2 _movement;
     private Vector2 _direction;
+    private Transform _target;
 
     private void Awake()
     {
@@ -23,9 +24,30 @@ public class PlayerMovement : MonoBehaviour
     private void Update()
     {
         _movement = joystick.Direction;
+        
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
 
-        if (joystick.Direction == Vector2.zero) return;
-        _direction = joystick.Direction;
+        float shortestDistance = Mathf.Infinity;
+        GameObject nearestEnemy = null;
+        foreach (var variable in enemies)
+        {
+            float dist = Vector3.Distance(transform.position, variable.transform.position);
+            if (shortestDistance >= dist)
+            {
+                shortestDistance = dist;
+                nearestEnemy = variable;
+            }
+        }
+
+        if (nearestEnemy is not null)
+        {
+            _direction = nearestEnemy.transform.position - transform.position;
+        }
+        else
+        {
+            _direction = joystick.Direction;
+        }
+        
     }
 
     private void FixedUpdate()
